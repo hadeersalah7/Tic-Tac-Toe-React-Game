@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 const Player = ({ name, symbol }) => {
     const [isEditing, setIsEditing] = useState(false)
     const handleEditingClick = () => {
-        setIsEditing(true)
+        setIsEditing(!isEditing)
     }
 
     return (
@@ -13,11 +13,11 @@ const Player = ({ name, symbol }) => {
                     {isEditing == false ? (
                         <span className="player-name">{name}</span>
                     ) : (
-                        <input type='text' placeholder='Your Score:' />
+                        <input type='text' required value={name}/>
                     )}
                     <span className="player-logo">{symbol}</span>
                 </span>
-                <button onClick={handleEditingClick}>Edit</button>
+                <button onClick={handleEditingClick}>{isEditing ? "Save" : "Edit" }</button>
             </li>
         </>
     )
