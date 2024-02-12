@@ -1,4 +1,5 @@
-import Player from "./components/Player"
+import GameBoard from "./components/GameBoard/GameBoard"
+import Player from "./components/Player/Player"
 const App = () => {
   
 
@@ -9,7 +10,7 @@ const App = () => {
           <Player name="Player 1" symbol="X" />
           <Player name="Player 2" symbol="O" />
         </ol>
-        GAME board
+        <GameBoard />
       </div>
       LOG
     </main>
