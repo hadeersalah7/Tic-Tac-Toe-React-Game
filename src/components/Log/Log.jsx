@@ -1,8 +1,12 @@
 import React from 'react'
 
-function Log() {
+const Log = ({ turns }) => {
     return (
-        <div>Log</div>
+        <div id="log">{turns.map((turn) =>
+            <li key={`${turn.square.row}${turn.square.col}`}>
+                {turn.player} Selected {turn.square.row}{turn.square.col}
+            </li>)}
+        </div>
     )
 }
 
