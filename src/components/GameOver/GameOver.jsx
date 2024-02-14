@@ -1,11 +1,11 @@
 import React from 'react'
 
-const GameOver = ({message, rematch}) => {
+const GameOver = ({winner, rematch}) => {
     return (
         <div id="game-over">
             <h2>Game Over!</h2>
-            {message && <p>{message} Won!</p>}
-            {!message && <p>it&apos;s a draw!</p> }
+            {winner && <p>{winner} Won!</p>}
+            {!winner && <p>it&apos;s a draw!</p> }
             <button onClick={rematch}>Rematch?</button>
         </div>
     )

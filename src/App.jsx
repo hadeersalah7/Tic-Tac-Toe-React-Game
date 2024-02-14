@@ -1,6 +1,6 @@
 import GameBoard from "./components/GameBoard/GameBoard";
 import Log from "./components/Log/Log";
-import Player from "./components/Player/Player";
+import Player from "./components/NewPlayer/Player";
 import { useState } from "react";
 import { WINNING_COMBINATIONS } from "./winning-combinations";
 import GameOver from "./components/GameOver/GameOver";
@@ -23,9 +23,13 @@ const derivedActivePlayer = (gameTurns) => {
 
 const App = () => {
   const [gameTurns, setGameTurns] = useState([]);
+  const [players, setPlayers] = useState({
+    "X": "Player 1",
+  "O": "Player 2"
+  })
   let activePlayer = derivedActivePlayer(gameTurns);
-  let message
-  let gameBoard = [...gameBoardStructure].map((array) => [...array]);
+  let winner
+  let gameBoard = [...gameBoardStructure.map((array) => [...array])];
   for (const combination of WINNING_COMBINATIONS) {
     const firstCombination = gameBoard[combination[0].row][combination[0].column]
     const secondCombination = gameBoard[combination[1].row][combination[1].column]
@@ -35,10 +39,10 @@ const App = () => {
       firstCombination === secondCombination &&
       firstCombination === thirdCombination
     ) {
-      message = firstCombination
+      winner = players[firstCombination]
     }
   }
-  const hasDraw = gameTurns.length === 9 && !message
+  const hasDraw = gameTurns.length === 9 && !winner
 
   const handleSelectPlayer = (rowIndex, colIndex) => {
     setGameTurns((prevTurns) => {
@@ -60,14 +64,27 @@ const App = () => {
   const handleRematchClick = () => {
     setGameTurns([])
   }
+
+  const handlePlayerNameChange = (symbol, name) => {
+    setPlayers(prevName => {
+      return {
+        ...prevName,
+      [symbol]: name
+      }
+    })
+  }
   return (
     <main>
       <div id="game-container">
         <ol id="players" className="highlight-player">
-          <Player name="Player 1" symbol="X" isActive={activePlayer === "X"} />
-          <Player name="Player 2" symbol="O" isActive={activePlayer === "O"} />
+          <Player name="Player 1" symbol="X" isActive={activePlayer === "X"}
+            onChangeName={handlePlayerNameChange}
+          />
+          <Player name="Player 2" symbol="O" isActive={activePlayer === "O"}
+            onChangeName={handlePlayerNameChange}
+          />
         </ol>
-        {(message || hasDraw) && <GameOver message={message} rematch={handleRematchClick} />}
+        {(winner || hasDraw) && <GameOver winner={winner} rematch={handleRematchClick} />}
         <GameBoard onSelect={handleSelectPlayer} board={gameBoard}  />
       </div>
       <Log turns={gameTurns} />
