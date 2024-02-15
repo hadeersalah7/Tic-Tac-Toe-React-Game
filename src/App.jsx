@@ -24,12 +24,17 @@ const derivedActivePlayer = (gameTurns) => {
 const App = () => {
   const [gameTurns, setGameTurns] = useState([]);
   const [players, setPlayers] = useState({
-    "X": "Player 1",
-  "O": "Player 2"
+    X: "Player 1",
+  O: "Player 2"
   })
   let activePlayer = derivedActivePlayer(gameTurns);
   let winner
   let gameBoard = [...gameBoardStructure.map((array) => [...array])];
+  for (const turn of gameTurns) {
+    const { square, player } = turn;
+    const { row, col } = square;
+    gameBoard[row][col] = player;
+  }
   for (const combination of WINNING_COMBINATIONS) {
     const firstCombination = gameBoard[combination[0].row][combination[0].column]
     const secondCombination = gameBoard[combination[1].row][combination[1].column]
@@ -56,20 +61,16 @@ const App = () => {
     });
   };
   
-  for (const turn of gameTurns) {
-    const { square, player } = turn;
-    const { row, col } = square;
-    gameBoard[row][col] = player;
-  }
+  
   const handleRematchClick = () => {
     setGameTurns([])
   }
 
-  const handlePlayerNameChange = (symbol, name) => {
+  const handlePlayerNameChange = (symbol, newName) => {
     setPlayers(prevName => {
       return {
         ...prevName,
-      [symbol]: name
+        [symbol]: newName
       }
     })
   }
@@ -84,7 +85,7 @@ const App = () => {
             onChangeName={handlePlayerNameChange}
           />
         </ol>
-        {(winner || hasDraw) && <GameOver winner={winner} rematch={handleRematchClick} />}
+        {(winner || hasDraw) && (<GameOver winner={winner} rematch={handleRematchClick} />)}
         <GameBoard onSelect={handleSelectPlayer} board={gameBoard}  />
       </div>
       <Log turns={gameTurns} />

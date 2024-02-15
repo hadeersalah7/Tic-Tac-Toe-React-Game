@@ -18,7 +18,7 @@ const Player = ({ intialName, symbol, isActive, onChangeName }) => {
             <li className={isActive ? "active" : undefined}>
                 <span className="player">
                     {isEditing == false ? (
-                        <span className="player-name">{intialName}</span>
+                        <span className="player-name">{playerName}</span>
                     ) : (
                         <input type='text' required value={playerName} onChange={handleChangeClick}/>
                     )}
